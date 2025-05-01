@@ -9,7 +9,7 @@ We are going to make the Neural Networks Great Again!
 ## Setup
 
 - Create Virtual Environment
-```python
+```
 python -m venv venv
 ```
 
