@@ -40,6 +40,10 @@ def pol_reg(degree, X, y, fold_count, test_size=0.3, random_state=23):
     pfeat = PolynomialFeatures(degree)
     X_p = pfeat.fit_transform(X)
 
+    # standarize to avoid overflow
+    scaler = StandardScaler()
+    X_p = scaler.fit_transform(X_p)
+
     error_history = []
     models = []
 
