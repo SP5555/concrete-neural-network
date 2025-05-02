@@ -30,6 +30,9 @@ class LinearRegression:
                 grad = 2 * X_batch.T.dot(err)
                 avg_grad = grad / X_batch.shape[0]
                 self.theta -= learning_rate * avg_grad
+    
+    def predict(self, X):
+        return X.dot(self.theta)
 
 def pol_reg(degree, X, y, fold_count, test_size=0.3, random_state=23):
     kf = KFold(fold_count)
@@ -62,5 +65,7 @@ def pol_reg(degree, X, y, fold_count, test_size=0.3, random_state=23):
 
 dataset = pd.read_csv("Concrete_Data_Yeh.csv")
 X = dataset.drop("csMPa", axis=1).values
-y = dataset.values
+
+# assign values for y from dataset
+y = dataset["csMPa"].values
 best_model = pol_reg(5, X, y, 5)
