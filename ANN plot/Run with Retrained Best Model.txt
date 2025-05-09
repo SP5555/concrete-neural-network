@@ -1,0 +1,37 @@
+NaNs in X: 0
+NaNs in y: 0
+Running GridSearchCV... this may take several minutes.
+Fitting 5 folds for each of 32 candidates, totalling 160 fits
+Best MSE: 32.625036 using {'activation': 'tanh', 'dropout_rate': 0.0, 'momentum': 0.0, 'num_layers': 2, 'num_neurons': 64}
+MSE: 53.780915 (±9.940596) with: {'activation': 'relu', 'dropout_rate': 0.0, 'momentum': 0.0, 'num_layers': 2, 'num_neurons': 32}
+MSE: 53.998230 (±8.446900) with: {'activation': 'relu', 'dropout_rate': 0.0, 'momentum': 0.0, 'num_layers': 2, 'num_neurons': 64}
+MSE: 65.831113 (±11.039104) with: {'activation': 'relu', 'dropout_rate': 0.0, 'momentum': 0.0, 'num_layers': 3, 'num_neurons': 32}
+MSE: 99.286068 (±15.147835) with: {'activation': 'relu', 'dropout_rate': 0.0, 'momentum': 0.0, 'num_layers': 3, 'num_neurons': 64}
+MSE: 41.199853 (±8.651749) with: {'activation': 'relu', 'dropout_rate': 0.0, 'momentum': 0.9, 'num_layers': 2, 'num_neurons': 32}
+MSE: 45.189688 (±9.444883) with: {'activation': 'relu', 'dropout_rate': 0.0, 'momentum': 0.9, 'num_layers': 2, 'num_neurons': 64}
+MSE: 107.743893 (±60.897633) with: {'activation': 'relu', 'dropout_rate': 0.0, 'momentum': 0.9, 'num_layers': 3, 'num_neurons': 32}
+MSE: 306.329227 (±251.604763) with: {'activation': 'relu', 'dropout_rate': 0.0, 'momentum': 0.9, 'num_layers': 3, 'num_neurons': 64}
+MSE: 78.648898 (±20.197273) with: {'activation': 'relu', 'dropout_rate': 0.2, 'momentum': 0.0, 'num_layers': 2, 'num_neurons': 32}
+MSE: 68.964088 (±16.042257) with: {'activation': 'relu', 'dropout_rate': 0.2, 'momentum': 0.0, 'num_layers': 2, 'num_neurons': 64}
+MSE: 58.003591 (±14.275164) with: {'activation': 'relu', 'dropout_rate': 0.2, 'momentum': 0.0, 'num_layers': 3, 'num_neurons': 32}
+MSE: 60.931548 (±8.709846) with: {'activation': 'relu', 'dropout_rate': 0.2, 'momentum': 0.0, 'num_layers': 3, 'num_neurons': 64}
+MSE: 56.566603 (±9.928536) with: {'activation': 'relu', 'dropout_rate': 0.2, 'momentum': 0.9, 'num_layers': 2, 'num_neurons': 32}
+MSE: 75.653864 (±17.101201) with: {'activation': 'relu', 'dropout_rate': 0.2, 'momentum': 0.9, 'num_layers': 2, 'num_neurons': 64}
+MSE: 75.205676 (±17.235715) with: {'activation': 'relu', 'dropout_rate': 0.2, 'momentum': 0.9, 'num_layers': 3, 'num_neurons': 32}
+MSE: 61.502297 (±5.718279) with: {'activation': 'relu', 'dropout_rate': 0.2, 'momentum': 0.9, 'num_layers': 3, 'num_neurons': 64}
+MSE: 34.048610 (±5.694274) with: {'activation': 'tanh', 'dropout_rate': 0.0, 'momentum': 0.0, 'num_layers': 2, 'num_neurons': 32}
+MSE: 32.625036 (±6.499141) with: {'activation': 'tanh', 'dropout_rate': 0.0, 'momentum': 0.0, 'num_layers': 2, 'num_neurons': 64}
+MSE: 36.144397 (±7.577268) with: {'activation': 'tanh', 'dropout_rate': 0.0, 'momentum': 0.0, 'num_layers': 3, 'num_neurons': 32}
+MSE: 33.997570 (±4.779511) with: {'activation': 'tanh', 'dropout_rate': 0.0, 'momentum': 0.0, 'num_layers': 3, 'num_neurons': 64}
+MSE: 140.708017 (±123.968115) with: {'activation': 'tanh', 'dropout_rate': 0.0, 'momentum': 0.9, 'num_layers': 2, 'num_neurons': 32}
+MSE: 38.524632 (±6.431411) with: {'activation': 'tanh', 'dropout_rate': 0.0, 'momentum': 0.9, 'num_layers': 2, 'num_neurons': 64}
+MSE: 241.787913 (±100.451688) with: {'activation': 'tanh', 'dropout_rate': 0.0, 'momentum': 0.9, 'num_layers': 3, 'num_neurons': 32}
+MSE: 244.842843 (±106.101443) with: {'activation': 'tanh', 'dropout_rate': 0.0, 'momentum': 0.9, 'num_layers': 3, 'num_neurons': 64}
+MSE: 39.962620 (±6.698670) with: {'activation': 'tanh', 'dropout_rate': 0.2, 'momentum': 0.0, 'num_layers': 2, 'num_neurons': 32}
+MSE: 39.266418 (±5.410062) with: {'activation': 'tanh', 'dropout_rate': 0.2, 'momentum': 0.0, 'num_layers': 2, 'num_neurons': 64}
+MSE: 44.709059 (±6.904712) with: {'activation': 'tanh', 'dropout_rate': 0.2, 'momentum': 0.0, 'num_layers': 3, 'num_neurons': 32}
+MSE: 38.998145 (±3.026854) with: {'activation': 'tanh', 'dropout_rate': 0.2, 'momentum': 0.0, 'num_layers': 3, 'num_neurons': 64}
+MSE: 100.279675 (±94.840947) with: {'activation': 'tanh', 'dropout_rate': 0.2, 'momentum': 0.9, 'num_layers': 2, 'num_neurons': 32}
+MSE: 48.339854 (±8.017597) with: {'activation': 'tanh', 'dropout_rate': 0.2, 'momentum': 0.9, 'num_layers': 2, 'num_neurons': 64}
+MSE: 281.504982 (±33.483322) with: {'activation': 'tanh', 'dropout_rate': 0.2, 'momentum': 0.9, 'num_layers': 3, 'num_neurons': 32}
+MSE: 234.014121 (±96.833296) with: {'activation': 'tanh', 'dropout_rate': 0.2, 'momentum': 0.9, 'num_layers': 3, 'num_neurons': 64}
