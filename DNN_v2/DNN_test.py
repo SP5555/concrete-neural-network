@@ -3,6 +3,7 @@ from sklearn.model_selection import GridSearchCV, KFold
 from sklearn.datasets import load_digits
 from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
+from tensorflow.keras import Input
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.optimizers import SGD
@@ -19,12 +20,9 @@ X, y = digits.data, digits.target
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# Define model creation function
-from tensorflow.keras import Input
-
 def create_model(num_layers=1, num_neurons=64, activation='relu', dropout_rate=0.0, momentum=0.9):
     model = Sequential()
-    model.add(Input(shape=(X_scaled.shape[1],)))  # ✅ Use Input layer
+    model.add(Input(shape=(X_scaled.shape[1],)))
     model.add(Dense(num_neurons, activation=activation))
     model.add(Dropout(dropout_rate))
     for _ in range(num_layers - 1):

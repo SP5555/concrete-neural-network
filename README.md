@@ -4,7 +4,7 @@ We are going to make the Neural Networks Great Again!
 
 ## Dependencies
 
-- Tested with Python **3.12** (If something goes wrong, you know what to do.)
+- Tested with Python **3.10** (If something goes wrong, you know what to do.)
 
 ## Setup
 
