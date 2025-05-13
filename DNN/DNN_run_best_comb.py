@@ -4,7 +4,6 @@ import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-# from ucimlrepo import fetch_ucirepo
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from scikeras.wrappers import KerasRegressor
@@ -18,9 +17,6 @@ os.makedirs("outputs", exist_ok=True)
 tf.keras.backend.set_floatx('float32')
 
 # ===== Load Dataset =====
-# concrete_data = fetch_ucirepo(id=165)
-# X = concrete_data.data.features
-# y = concrete_data.data.targets.values.ravel()
 concrete_data = pd.read_csv("data/Concrete_Data_Yeh.csv")
 X = concrete_data.iloc[:, :-1].values
 y = concrete_data.iloc[:, -1].values
