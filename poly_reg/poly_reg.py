@@ -67,7 +67,7 @@ def pol_reg(degree, X, y, fold_count, test_size=0.3, random_state=23):
     best_model = models[min_err_idx]
     return best_model
 
-dataset = pd.read_csv("Concrete_Data_Yeh.csv")
+dataset = pd.read_csv("data/Concrete_Data_Yeh.csv")
 X = dataset.drop("csMPa", axis=1).values
 
 # assign values for y from dataset

@@ -1,0 +1,77 @@
+import os
+import numpy as np
+import tensorflow as tf
+
+from ucimlrepo import fetch_ucirepo
+from sklearn.model_selection import GridSearchCV, KFold
+from sklearn.preprocessing import StandardScaler
+from scikeras.wrappers import KerasRegressor
+
+from model_creator import create_model
+
+# ===== Backend and OS setup =====
+# Silence TensorFlow warnings
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.makedirs("outputs", exist_ok=True)
+tf.keras.backend.set_floatx('float32')
+
+# ===== Load Dataset =====
+concrete_data = fetch_ucirepo(id=165)
+X = concrete_data.data.features
+y = concrete_data.data.targets.values.ravel()
+
+# ===== Check and Fix NaNs =====
+print("NaNs in X (input features)")
+print(np.isnan(X).sum())
+print("NaNs in y (output target)")
+print(np.isnan(y).sum())
+X = np.nan_to_num(X)
+y = np.nan_to_num(y)
+
+# ===== Standardize =====
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+print("===== ===== ===== ===== =====")
+
+# Define safe parameter grid
+param_grid = {
+    'num_layers': [2, 3],
+    'num_neurons': [64],
+    'activation': ['relu', 'tanh'],
+    'dropout_rate': [0.0, 0.2, 0.4],  # avoid high dropout
+    'momentum': [0.5, 0.7, 0.9]
+}
+
+# Create KerasRegressor
+model = KerasRegressor(
+    model=create_model,
+    epochs=40,
+    batch_size=32,
+    verbose=0,
+    **param_grid
+)
+
+# Run GridSearchCV
+kfold = KFold(n_splits=5, shuffle=True, random_state=42)
+grid_search = GridSearchCV(
+    estimator=model,
+    param_grid=param_grid,
+    cv=kfold,
+    scoring='neg_mean_squared_error',
+    verbose=3
+)
+grid_result = grid_search.fit(X_scaled, y)
+
+FORMAT_WIDTH = 9
+# Save grid search results to file
+with open("outputs/GS_best_comp.txt", "w") as f:
+    # Best result
+    f.write(f"Best MSE: {abs(grid_result.best_score_):>{FORMAT_WIDTH}.4f} | Using {grid_result.best_params_}\n\n")
+
+    # Detailed results for all parameter combinations
+    means = grid_result.cv_results_['mean_test_score']
+    stds = grid_result.cv_results_['std_test_score']
+    params = grid_result.cv_results_['params']
+    for mean, std, param in zip(means, stds, params):
+        f.write(f"MSE: {abs(mean):>{FORMAT_WIDTH}.4f} | STD: {std:>{FORMAT_WIDTH}.4f} | Using: {param}\n")
