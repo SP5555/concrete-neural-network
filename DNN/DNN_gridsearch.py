@@ -1,8 +1,9 @@
 import os
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 
-from ucimlrepo import fetch_ucirepo
+# from ucimlrepo import fetch_ucirepo
 from sklearn.model_selection import GridSearchCV, KFold
 from sklearn.preprocessing import StandardScaler
 from scikeras.wrappers import KerasRegressor
@@ -16,9 +17,13 @@ os.makedirs("outputs", exist_ok=True)
 tf.keras.backend.set_floatx('float32')
 
 # ===== Load Dataset =====
-concrete_data = fetch_ucirepo(id=165)
-X = concrete_data.data.features
-y = concrete_data.data.targets.values.ravel()
+# concrete_data = fetch_ucirepo(id=165)
+# X = concrete_data.data.features
+# y = concrete_data.data.targets.values.ravel()
+concrete_data = pd.read_csv("data/Concrete_Data_Yeh.csv")
+X = concrete_data.iloc[:, :-1].values
+y = concrete_data.iloc[:, -1].values
+
 
 # ===== Check and Fix NaNs =====
 print("NaNs in X (input features)")

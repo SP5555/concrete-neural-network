@@ -1,10 +1,12 @@
 import os
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-from ucimlrepo import fetch_ucirepo
+# from ucimlrepo import fetch_ucirepo
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 from scikeras.wrappers import KerasRegressor
 
 from model_creator import create_model
@@ -16,9 +18,12 @@ os.makedirs("outputs", exist_ok=True)
 tf.keras.backend.set_floatx('float32')
 
 # ===== Load Dataset =====
-concrete_data = fetch_ucirepo(id=165)
-X = concrete_data.data.features
-y = concrete_data.data.targets.values.ravel()
+# concrete_data = fetch_ucirepo(id=165)
+# X = concrete_data.data.features
+# y = concrete_data.data.targets.values.ravel()
+concrete_data = pd.read_csv("data/Concrete_Data_Yeh.csv")
+X = concrete_data.iloc[:, :-1].values
+y = concrete_data.iloc[:, -1].values
 
 # ===== Check and Fix NaNs =====
 print("NaNs in X (input features)")
@@ -52,11 +57,9 @@ best_model = KerasRegressor(
     **best_params
 )
 
-# Train the model and save training history
-history = best_model.fit(X_scaled, y, validation_split=0.2)
-
-# Make sure output folder exists
-os.makedirs("outputs", exist_ok=True)
+# Split and train
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+history = best_model.fit(X_train, y_train, validation_data=(X_test, y_test))
 
 # Plot training and validation loss
 plt.figure(figsize=(10, 6))
