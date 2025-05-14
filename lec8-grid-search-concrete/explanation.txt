@@ -1,0 +1,14 @@
+if you want to run this, then you have to have python 3.10.13
+
+if you are on macos then pip install requirements.txt
+
+if you are on windows then change the tensorflow-macos==2.10.0 to tensorflow==2.10.0
+
+then run concrete-grid-search.py if you want to find the best hyperparameters
+
+once you have the best hyperparameters copy them and put them in best_ANN.py file
+
+best_ANN.py creates a new model based on these hyperparameters. we train this model on the
+training set. We use this model to generate predictions. we then do mean_squared_error 
+on predictions and ground truth values.
+
