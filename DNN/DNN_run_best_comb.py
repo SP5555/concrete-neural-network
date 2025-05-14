@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
@@ -39,7 +40,7 @@ print("===== ===== ===== ===== =====")
 best_params = {
     'activation': 'tanh',
     'dropout_rate': 0.0,
-    'momentum': 0.5,
+    'momentum': 0.7,
     'num_layers': 2,
     'num_neurons': 64
 }
@@ -71,3 +72,10 @@ plt.tight_layout()
 # Save the plot to outputs folder
 plt.savefig("outputs/best_model_loss_plot.png")
 plt.show()
+
+# Predict on test set
+y_pred = best_model.predict(X_test)
+
+# Calculate MSE
+mse = mean_squared_error(y_test, y_pred)
+print(f"Final Test MSE: {mse:.4f}")
