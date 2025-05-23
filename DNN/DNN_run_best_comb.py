@@ -11,24 +11,10 @@ from scikeras.wrappers import KerasRegressor
 
 from model_creator import create_model
 
-# ===== Backend and OS setup =====
-# Silence TensorFlow warnings
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
-os.makedirs("outputs", exist_ok=True)
-tf.keras.backend.set_floatx('float32')
-
 # ===== Load Dataset =====
 concrete_data = pd.read_csv("data/Concrete_Data_Yeh.csv")
 X = concrete_data.iloc[:, :-1].values
 y = concrete_data.iloc[:, -1].values
-
-# ===== Check and Fix NaNs =====
-print("NaNs in X (input features)")
-print(np.isnan(X).sum())
-print("NaNs in y (output target)")
-print(np.isnan(y).sum())
-X = np.nan_to_num(X)
-y = np.nan_to_num(y)
 
 # ===== Standardize =====
 scaler = StandardScaler()
@@ -70,7 +56,7 @@ plt.grid(True)
 plt.tight_layout()
 
 # Save the plot to outputs folder
-plt.savefig("outputs/best_model_loss_plot.png")
+# plt.savefig("outputs/best_model_loss_plot.png")
 plt.show()
 
 # Predict on test set
