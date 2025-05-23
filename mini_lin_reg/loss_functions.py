@@ -26,6 +26,18 @@ class LossFunc(ABC):
         """
         pass
 
+class MAE(LossFunc):
+    """
+    Mean Absolute Error
+    """
+    def calc_loss(self, y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+        raise NotImplementedError
+        return loss
+
+    def calc_grad(self, y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
+        raise NotImplementedError
+        return grad
+
 class MSE(LossFunc):
     """
     Mean Squared Error
