@@ -10,7 +10,7 @@ We are going to make the Neural Networks Great Again!
 
 - Create Virtual Environment
 ```
-python -m venv venv
+python3.10 -m venv venv
 ```
 
 - Activate the virtual environment
