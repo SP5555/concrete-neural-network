@@ -1,5 +1,6 @@
 import numpy as np
 from .loss_functions import LossFunc
+from .regularizers import Regularizer, NullRegularizer
 from .optimizers import Optimizer
 
 class MiniLinReg:
@@ -11,7 +12,8 @@ class MiniLinReg:
     def __init__(self,
                  input_size: int,
                  loss_function: LossFunc,
-                 optimizer: Optimizer):
+                 optimizer: Optimizer,
+                 regularizer: Regularizer = None):
         # ===== input validation START =====
         if input_size == None:
             raise ValueError("input_size is required.")
@@ -27,6 +29,7 @@ class MiniLinReg:
 
         self.input_size = input_size
         self.loss_function = loss_function
+        self.regularizer = regularizer if regularizer else NullRegularizer()
         self.optimizer = optimizer
 
         # matrix dimensions
@@ -119,7 +122,8 @@ class MiniLinReg:
                 # Loss is calculated by loss_function
                 # EQ    : Loss        = loss(Y_true, Y_pred)
                 # shape : (b_size, 1) = (b_size, 1)
-                loss = self.loss_function.calc_loss(y_true=o, y_pred=y_pred)
+                # loss here is not really necessary for now
+                # loss = self.loss_function.calc_loss(y_true=o, y_pred=y_pred)
 
                 # ===== backward pass (back propagation) =====
                 # grad_Y is dLoss/dY (or dLoss/dY_pred)
@@ -131,15 +135,17 @@ class MiniLinReg:
                 # EQ    : dLoss/W         = X.T                  @ dLoss/dY
                 # shape : (input_size, 1) = (input_size, b_size) @ (b_size, 1)
                 grad_W = np.matmul(i.T, grad_Y) / effective_batch_size
+                grad_W += self.regularizer.calc_grad(self.weights)
 
                 # grad_B is gradient of Loss w.r.t. bias
                 # EQ    : dLoss/B = avg_sum[dLoss/Y]
                 # shape : (1, 1)  = avg_sum[(b_size, 1)]
+                # Bias term should NEVER be regularized
                 grad_B = np.sum(grad_Y, axis=0, keepdims=True) / effective_batch_size
 
                 self.weights = self.optimizer.step(self.weights, grad_W)
-                self.bias    = self.optimizer.step(self.bias   , grad_B)
-            
+                self.bias    = self.optimizer.step(self.bias,    grad_B)
+
             y_pred = np.matmul(input, self.weights) + self.bias
             loss = self.loss_function.calc_loss(y_true=output, y_pred=y_pred)
             print(f"Epoch: [{_+1}/{epoch}] | {self.loss_function.__class__.__name__}: {np.mean(loss)}")

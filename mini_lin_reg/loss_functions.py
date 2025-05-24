@@ -7,7 +7,7 @@ class LossFunc(ABC):
     -----
     Abstract base class for all loss function implementations.
 
-    All calculations should work element wise
+    All calculations must be done element wise
     """
     def __init__(self):
         pass
