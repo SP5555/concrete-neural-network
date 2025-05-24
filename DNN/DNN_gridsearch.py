@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
+from sklearn.model_selection import train_test_split
+
 from sklearn.model_selection import GridSearchCV, KFold
 from sklearn.preprocessing import StandardScaler
 from scikeras.wrappers import KerasRegressor
@@ -47,7 +49,10 @@ grid_search = GridSearchCV(
     scoring='neg_mean_squared_error',
     verbose=3
 )
-grid_result = grid_search.fit(X_scaled, y)
+
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+# grid_result = grid_search.fit(X_scaled, y)
+grid_result = grid_search.fit(X_train, y_train)
 
 FORMAT_WIDTH = 9
 # Save grid search results to file

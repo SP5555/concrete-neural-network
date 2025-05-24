@@ -34,9 +34,7 @@ model = MiniLinReg(
     optimizer=SGD(learn_rate=0.003),
 )
 
-# if implementation is correct, model should converge with epoch 20
-# and should give MSE of around 100~120 on both train and test
-model.train(X_train, y_train, batch_size=64, epoch=30)
+model.train(X_train, y_train, batch_size=32, epoch=50)
 y_pred = model.predict(X_test)
 
 mse = mean_squared_error(y_test, y_pred)
