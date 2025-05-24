@@ -26,8 +26,7 @@ class SGD(Optimizer):
         super().__init__(learn_rate)
 
     def step(self, weights: np.ndarray, grad: np.ndarray) -> np.ndarray:
-        raise NotImplementedError
-        return updated_weights
+        return weights - self.learn_rate * grad
 
 class Momentum(Optimizer):
     def __init__(self, learn_rate: float):
