@@ -6,6 +6,8 @@ class Optimizer(ABC):
     Optimizer
     -----
     Abstract base class for all optimizer implementations.
+
+    Optimizers should update the weights in-place.
     """
     def __init__(self, learn_rate: float):
         
@@ -18,15 +20,15 @@ class Optimizer(ABC):
         pass
 
     @abstractmethod
-    def step(self, weights: np.ndarray, grad: np.ndarray) -> np.ndarray:
+    def step(self, weights: np.ndarray, grad: np.ndarray) -> None:
         pass
 
 class SGD(Optimizer):
     def __init__(self, learn_rate: float):
         super().__init__(learn_rate)
 
-    def step(self, weights: np.ndarray, grad: np.ndarray) -> np.ndarray:
-        return weights - self.lr * grad
+    def step(self, weights: np.ndarray, grad: np.ndarray) -> None:
+        weights -= self.lr * grad
 
 class Momentum(Optimizer):
     def __init__(self, learn_rate: float):
@@ -34,13 +36,11 @@ class Momentum(Optimizer):
 
     def step(self, weights: np.ndarray, grad: np.ndarray) -> np.ndarray:
         raise NotImplementedError
-        return updated_weights
 
 class Adam(Optimizer):
     def __init__(self, learn_rate: float):
         super().__init__(learn_rate)
 
-    def step(self, weights: np.ndarray, grad: np.ndarray) -> np.ndarray:
+    def step(self, weights: np.ndarray, grad: np.ndarray) -> None:
         raise NotImplementedError
-        return updated_weights
 

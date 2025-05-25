@@ -143,9 +143,9 @@ class MiniLinReg:
                 # Bias term should NEVER be regularized
                 grad_B = np.sum(grad_Y, axis=0, keepdims=True) / effective_batch_size
 
-                self.weights = self.optimizer.step(self.weights, grad_W)
-                self.bias    = self.optimizer.step(self.bias,    grad_B)
+                self.optimizer.step(self.weights, grad_W)
+                self.optimizer.step(self.bias,    grad_B)
 
             y_pred = np.matmul(input, self.weights) + self.bias
             loss = self.loss_function.calc_loss(y_true=output, y_pred=y_pred)
-            print(f"Epoch: [{_+1}/{epoch}] | {self.loss_function.__class__.__name__}: {np.mean(loss)}")
+            print(f"Epoch: [{_+1:>3}/{epoch}] | {self.loss_function.__class__.__name__}: {np.mean(loss):>10.4f}")
