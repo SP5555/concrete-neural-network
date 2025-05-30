@@ -10,8 +10,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import StandardScaler
 
+import matplotlib.pyplot as plt
+
 from mini_lin_reg import MiniLinReg
-from mini_lin_reg.loss_functions import MSE
+from mini_lin_reg.loss_functions import MAE, MSE
 from mini_lin_reg.optimizers import SGD
 
 from sklearn.preprocessing import PolynomialFeatures
@@ -33,12 +35,35 @@ model = MiniLinReg(
     loss_function=MSE(),
     optimizer=SGD(learn_rate=0.003),
 )
+loss_name = "MSE"
 
 t1 = time.time()
-model.train(X_train, y_train, batch_size=32, epoch=50)
+loss_train, loss_test = model.train(
+    input_train  =X_train,
+    output_train =y_train,
+    input_test   =X_test,
+    output_test  =y_test,
+    batch_size   =32,
+    epoch        =50
+)
 t2 = time.time()
 print(f"Training time taken: {(t2 - t1) * 1000:.4f} ms")
 
 y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
-print(f"Test MSE: {mse:.4f}")
+print(f"Test MSE (from sklearn): {mse:.4f}")
+
+# Plot training and validation loss
+plt.figure(figsize=(8, 6))
+plt.plot(loss_train, label=f'Train {loss_name}')
+plt.plot(loss_test, label=f'Test {loss_name}')
+plt.title(f'{loss_name} Loss Over Epochs (MiniLinReg Model)')
+plt.xlabel('Epoch')
+plt.ylabel(f'{loss_name} Loss')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Save the plot to outputs folder
+plt.savefig("outputs/poly_reg_loss_plot.png")
+plt.show()

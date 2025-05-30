@@ -60,10 +60,12 @@ class MiniLinReg:
         return output
 
     def train(self,
-              input: np.ndarray,
-              output: np.ndarray,
+              input_train: np.ndarray,
+              output_train: np.ndarray,
+              input_test: np.ndarray | None = None,
+              output_test: np.ndarray | None = None,
               batch_size: int = 1,
-              epoch: int = 10) -> None:
+              epoch: int = 10) -> tuple[list, list]:
         """
         Trains the model to fit on the given dataset.
 
@@ -87,12 +89,22 @@ class MiniLinReg:
             Number of epochs to train the model. \\
             Default is `10`.
         """
+
+        _has_test_data: bool
+        if input_test is not None and output_test is not None:
+            _has_test_data = True
+        elif input_test is None and output_test is None:
+            _has_test_data = False
+        else:
+            raise ValueError("Both input_test and output_test must be provided.")
         
         # matrix dimensions
         # input  (X) shape: (N, input_size)
         # output (Y) shape: (N, 1)
 
-        total_samples = input.shape[0]
+        loss_arr_train = []
+        loss_arr_test = []
+        total_samples = input_train.shape[0]
 
         for _ in range(epoch):
 
@@ -109,8 +121,8 @@ class MiniLinReg:
 
                 # i shape: (b_size, input_size)
                 # o shape: (b_size, 1)
-                i: np.ndarray = input[indices]
-                o: np.ndarray = output[indices]
+                i: np.ndarray = input_train[indices]
+                o: np.ndarray = output_train[indices]
 
                 # ===== forward pass =====
                 # EQ    : Y           = X                    @ W               + B
@@ -146,6 +158,19 @@ class MiniLinReg:
                 self.optimizer.step(self.weights, grad_W)
                 self.optimizer.step(self.bias,    grad_B)
 
-            y_pred = np.matmul(input, self.weights) + self.bias
-            loss = self.loss_function.calc_loss(y_true=output, y_pred=y_pred)
-            print(f"Epoch: [{_+1:>3}/{epoch}] | {self.loss_function.__class__.__name__}: {np.mean(loss):>10.4f}")
+            # loss train calculation
+            y_pred = self.predict(input_train)
+            loss_train = self.loss_function.calc_loss(y_true=output_train, y_pred=y_pred)
+            loss_arr_train.append(np.mean(loss_train))
+            loss_test_msg = ""
+
+            if _has_test_data:
+                y_pred = self.predict(input_test)
+                loss_test = self.loss_function.calc_loss(y_true=output_test, y_pred=y_pred)
+                loss_arr_test.append(np.mean(loss_test))
+                loss_test_msg = f" | test: {np.mean(loss_test):>10.4f}"
+
+            print(f"Epoch: [{_+1:>3}/{epoch}] | {self.loss_function.__class__.__name__} | " +
+                  f"train: {np.mean(loss_train):>10.4f}{loss_test_msg}")
+
+        return loss_arr_train, loss_arr_test
