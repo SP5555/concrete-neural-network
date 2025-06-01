@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 from mini_lin_reg import MiniLinReg
 from mini_lin_reg.loss_functions import MAE, MSE
-from mini_lin_reg.optimizers import SGD
+from mini_lin_reg.optimizers import SGD, Adam
 
 from sklearn.preprocessing import PolynomialFeatures
 
@@ -33,7 +33,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 model = MiniLinReg(
     input_size=X.shape[1],
     loss_function=MSE(),
-    optimizer=SGD(learn_rate=0.003),
+    optimizer=Adam(learn_rate=0.02),
 )
 loss_name = "MSE"
 
@@ -43,8 +43,8 @@ loss_train, loss_test = model.train(
     output_train =y_train,
     input_test   =X_test,
     output_test  =y_test,
-    batch_size   =32,
-    epoch        =50
+    batch_size   =16,
+    epoch        =60
 )
 t2 = time.time()
 print(f"Training time taken: {(t2 - t1) * 1000:.4f} ms")
@@ -65,5 +65,5 @@ plt.grid(True)
 plt.tight_layout()
 
 # Save the plot to outputs folder
-plt.savefig("outputs/poly_reg_loss_plot.png")
+# plt.savefig("outputs/poly_reg_loss_plot.png")
 plt.show()

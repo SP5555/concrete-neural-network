@@ -31,6 +31,9 @@ class SGD(Optimizer):
         weights -= self.lr * grad
 
 class Momentum(Optimizer):
+    # might need a new parameter in the constructor, call it "beta"
+    # beta must be in [0.0, 1.0) range
+    # get rid of this comment after implementation Lmao
     def __init__(self, learn_rate: float):
         super().__init__(learn_rate)
 
@@ -38,9 +41,37 @@ class Momentum(Optimizer):
         raise NotImplementedError
 
 class Adam(Optimizer):
-    def __init__(self, learn_rate: float):
+    def __init__(self, learn_rate: float, beta1: float = 0.9, beta2: float = 0.999):
         super().__init__(learn_rate)
+        if not 0.0 <= beta1 < 1.0 or not 0.0 <= beta2 < 1.0 :
+            raise ValueError("Both beta1 and beta2 must be between within [0.0, 1.0).")
+        if beta1 >= 0.95:
+            print(f"Warning: beta1 = {beta1:.3f} may cause strong \"gliding\" behavior. " +
+                    "Consider keeping it less than 0.95")
+
+        self.beta1 = beta1
+        self.beta2 = beta2
+        # 1st moment
+        self.m = {}
+        # 2nd moment
+        self.v = {}
+        # step counter
+        self.t = 0
 
     def step(self, weights: np.ndarray, grad: np.ndarray) -> None:
-        raise NotImplementedError
+        self.t += 1
 
+        w_id = id(weights)
+        if w_id not in self.m:
+            self.m[w_id] = np.zeros_like(weights)
+            self.v[w_id] = np.zeros_like(weights)
+
+        # update 1st and 2nd moments
+        self.m[w_id] = self.beta1 * self.m[w_id] + (1-self.beta1) * grad
+        self.v[w_id] = self.beta2 * self.v[w_id] + (1-self.beta2) * np.square(grad)
+
+        # this is some sort of scaling, known as "bias-correction"
+        m_hat = self.m[w_id] / (1 - self.beta1 ** self.t)
+        v_hat = self.v[w_id] / (1 - self.beta2 ** self.t)
+
+        weights += -1 * self.lr * m_hat / np.sqrt(v_hat + 1e-12)
