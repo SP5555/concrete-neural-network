@@ -54,10 +54,9 @@ mse = mean_squared_error(y_test, y_pred)
 print(f"Test MSE (from sklearn): {mse:.4f}")
 
 # Plot training and validation loss
-plt.figure(figsize=(8, 6))
+plt.figure(figsize=(4, 3))
 plt.plot(loss_train, label=f'Train {loss_name}')
 plt.plot(loss_test, label=f'Test {loss_name}')
-plt.title(f'{loss_name} Loss Over Epochs (MiniLinReg Model)')
 plt.xlabel('Epoch')
 plt.ylabel(f'{loss_name} Loss')
 plt.legend()
@@ -65,5 +64,5 @@ plt.grid(True)
 plt.tight_layout()
 
 # Save the plot to outputs folder
-# plt.savefig("outputs/poly_reg_loss_plot.png")
+plt.savefig("outputs/poly_reg_MSE_Adam_Null.png")
 plt.show()
