@@ -31,14 +31,21 @@ class SGD(Optimizer):
         weights -= self.lr * grad
 
 class Momentum(Optimizer):
-    # might need a new parameter in the constructor, call it "beta"
-    # beta must be in [0.0, 1.0) range
-    # get rid of this comment after implementation Lmao
-    def __init__(self, learn_rate: float):
+    def __init__(self, learn_rate: float, beta: float = 0.9):
         super().__init__(learn_rate)
+        if not 0.0 <= beta < 1.0:
+            raise ValueError("Beta must be between within [0.0, 1.0]")
+        self.beta = beta
+        self.m = {}
 
-    def step(self, weights: np.ndarray, grad: np.ndarray) -> np.ndarray:
-        raise NotImplementedError
+    def step(self, weights: np.ndarray, grad: np.ndarray) -> None:
+        w_id = id(weights)
+        if w_id not in self.m:
+            self.m[w_id] = np.zeros_like(weights)
+        
+        self.m[w_id] = self.beta * self.m[w_id] + (1 - self.beta) * grad
+
+        weights -= self.lr * self.m[w_id]
 
 class Adam(Optimizer):
     def __init__(self, learn_rate: float, beta1: float = 0.9, beta2: float = 0.999):
