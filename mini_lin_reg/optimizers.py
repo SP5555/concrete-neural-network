@@ -34,7 +34,7 @@ class Momentum(Optimizer):
     def __init__(self, learn_rate: float, beta: float = 0.9):
         super().__init__(learn_rate)
         if not 0.0 <= beta < 1.0:
-            raise ValueError("Beta must be between within [0.0, 1.0]")
+            raise ValueError("Beta must be between [0.0, 1.0]")
         self.beta = beta
         self.m = {}
 
@@ -51,7 +51,7 @@ class Adam(Optimizer):
     def __init__(self, learn_rate: float, beta1: float = 0.9, beta2: float = 0.999):
         super().__init__(learn_rate)
         if not 0.0 <= beta1 < 1.0 or not 0.0 <= beta2 < 1.0 :
-            raise ValueError("Both beta1 and beta2 must be between within [0.0, 1.0).")
+            raise ValueError("Both beta1 and beta2 must be between [0.0, 1.0).")
         if beta1 >= 0.95:
             print(f"Warning: beta1 = {beta1:.3f} may cause strong \"gliding\" behavior. " +
                     "Consider keeping it less than 0.95")

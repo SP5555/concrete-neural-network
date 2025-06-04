@@ -14,7 +14,8 @@ import matplotlib.pyplot as plt
 
 from mini_lin_reg import MiniLinReg
 from mini_lin_reg.loss_functions import MAE, MSE
-from mini_lin_reg.optimizers import SGD, Adam
+from mini_lin_reg.optimizers import SGD, Momentum, Adam
+from mini_lin_reg.regularizers import L1Regularizer, L2Regularizer
 
 from sklearn.preprocessing import PolynomialFeatures
 
@@ -33,7 +34,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 model = MiniLinReg(
     input_size=X.shape[1],
     loss_function=MSE(),
-    optimizer=Adam(learn_rate=0.02),
+    optimizer=Momentum(learn_rate=0.002),
+    regularizer=L2Regularizer(reg_lambda=0.02)
 )
 loss_name = "MSE"
 
@@ -64,5 +66,5 @@ plt.grid(True)
 plt.tight_layout()
 
 # Save the plot to outputs folder
-plt.savefig("outputs/poly_reg_MSE_Adam_Null.png")
+plt.savefig("outputs/poly_reg_MSE_Momentum_L2.png")
 plt.show()
