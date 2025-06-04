@@ -41,23 +41,29 @@ class NullRegularizer(Regularizer):
 class L1Regularizer(Regularizer):
     """
     L1 Regularization
+    Penalty: lambda * |w|
+    Gradient: lambda * (sign of w)
     """
+    def __init__(self, reg_lambda: float):
+        self.reg_lambda = reg_lambda
+
     def calc_penalty(self, weights: np.ndarray) -> np.ndarray:
-        raise NotImplementedError
-        return penalty
+        return self.reg_lambda * np.abs(weights)
     
     def calc_grad(self, weights: np.ndarray) -> np.ndarray:
-        raise NotImplementedError
-        return grad
+        return self.reg_lambda * np.sign(weights)
 
 class L2Regularizer(Regularizer):
     """
     L2 Regularization
+    Penalty: lambda * w^2
+    Gradient: lambda * 2w
     """
+    def __init__(self, reg_lambda: float):
+        self.reg_lambda = reg_lambda
+
     def calc_penalty(self, weights: np.ndarray) -> np.ndarray:
-        raise NotImplementedError
-        return penalty
+        return self.reg_lambda * (weights ** 2)
     
     def calc_grad(self, weights: np.ndarray) -> np.ndarray:
-        raise NotImplementedError
-        return grad
+        return self.reg_lambda * (2 * weights)
