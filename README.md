@@ -23,5 +23,8 @@ source venv/bin/activate
 
 - Install dependencies
 ```
-pip install -r requirements.txt
+# On Windows:
+pip install -r requirementsWindows.txt
+# On macOS/Linux:
+pip install -r requirementsMac.txt
 ```
